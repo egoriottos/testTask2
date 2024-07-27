@@ -1,0 +1,66 @@
+[
+  {
+    "company": "Aeroflot",
+    "departure_city": "Владивосток",
+    "arrival_city": "Тель-Авив",
+    "departure_time": "2023-07-27 10:00:00",
+    "arrival_time": "2023-07-27 13:00:00",
+    "price": 100000
+  },
+  {
+    "company": "Aeroflot",
+    "departure_city": "Владивосток",
+    "arrival_city": "Тель-Авив",
+    "departure_time": "2023-07-27 10:00:00",
+    "arrival_time": "2023-07-27 12:00:00",
+    "price": 110000
+  },
+  {
+    "company": "Airbus",
+    "departure_city": "Владивосток",
+    "arrival_city": "Тель-Авив",
+    "departure_time": "2023-07-27 12:00:00",
+    "arrival_time": "2023-07-27 13:00:00",
+    "price": 150000
+  },
+  {
+    "company": "Airbus",
+    "departure_city": "Владивосток",
+    "arrival_city": "Тель-Авив",
+    "departure_time": "2023-07-27 12:00:00",
+    "arrival_time": "2023-07-27 14:00:00",
+    "price": 160000
+  },
+  {
+    "company": "Boeing",
+    "departure_city": "Владивосток",
+    "arrival_city": "Тель-Авив",
+    "departure_time": "2023-07-27 17:00:00",
+    "arrival_time": "2023-07-27 23:00:00",
+    "price": 90000
+  },
+  {
+    "company": "Boeing",
+    "departure_city": "Владивосток",
+    "arrival_city": "Тель-Авив",
+    "departure_time": "2023-07-27 17:00:00",
+    "arrival_time": "2023-07-27 22:00:00",
+    "price": 99000
+  },
+  {
+    "company": "Fokker",
+    "departure_city": "Владивосток",
+    "arrival_city": "Тель-Авив",
+    "departure_time": "2023-07-27 08:00:00",
+    "arrival_time": "2023-07-27 13:00:00",
+    "price": 220000
+  },
+  {
+    "company": "Fokker",
+    "departure_city": "Владивосток",
+    "arrival_city": "Тель-Авив",
+    "departure_time": "2023-07-27 08:00:00",
+    "arrival_time": "2023-07-27 16:00:00",
+    "price": 140000
+  }
+]
