@@ -3,9 +3,6 @@ package org.example;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Date;
 import java.util.Objects;
 
@@ -151,15 +148,4 @@ public class Ticket {
                 ", price=" + price +
                 '}';
     }
-    //"origin": "VVO",
-//        "origin_name": "Владивосток",
-//        "destination": "TLV",
-//        "destination_name": "Тель-Авив",
-//        "departure_date": "12.05.18",
-//        "departure_time": "6:10",
-//        "arrival_date": "12.05.18",
-//        "arrival_time": "16:15",
-//        "carrier": "S7",
-//        "stops": 0,
-//        "price": 17400
 }

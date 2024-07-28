@@ -9,11 +9,11 @@ import java.io.InputStream;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 public class Main {
     private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
@@ -22,6 +22,9 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println(readAllJSONFIle());
+        System.out.println(getTicketsWithCities());
+        System.out.println(countTickets());
+        System.out.println(countCities());
         System.out.println(getMinDurationTimeAndCompany());
         System.out.println(findAveragePrice());
         System.out.println(findMedian());
@@ -41,10 +44,29 @@ public class Main {
         }
         return null;
     }
+    public static int countTickets() {
+        List<Ticket> tickets1 = readAllJSONFIle();
+        return tickets1.size();
+    }
+    public static int countCities(){
+        List<Ticket> tickets1 = getTicketsWithCities();
+        return tickets1.size();
+    }
+    //отбор рейсов Владивосток-Тель-Авив
+    private static List<Ticket>getTicketsWithCities() {
+        tickets = readAllJSONFIle();
+        List<Ticket> cities = new ArrayList<>();
+        for (Ticket temp : tickets) {
+            if(temp.getOriginName().equals("Владивосток") && temp.getDestinationName().equals("Тель-Авив")){
+                cities.add(temp);
+            }
+        }
+        return cities;
+    }
 
     //нахождение минимального времени перелета
     private static Map<String, Duration> getMinDurationTimeAndCompany() {
-        tickets = readAllJSONFIle();
+        tickets = getTicketsWithCities();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm");
         Map<String, Duration> minFlightTimes = new HashMap<>();
 
@@ -63,7 +85,7 @@ public class Main {
 
 //    //среднее арифметическое
     private static double findAveragePrice() {
-        List<Ticket> tickets = readAllJSONFIle();
+        List<Ticket> tickets = getTicketsWithCities();
         double sum = 0;
         int count = 0;
         sum = tickets.stream().mapToDouble(Ticket::getPrice).sum();
@@ -74,7 +96,7 @@ public class Main {
 //
 //    //медиана
     private static double findMedian() {
-        List<Ticket> tickets = readAllJSONFIle();
+        List<Ticket> tickets = getTicketsWithCities();
         List<Ticket> sortedTickets = tickets.stream()
                 .sorted((t1,t2)->Double.compare(t1.getPrice(),t2.getPrice())).toList();
             if (sortedTickets.size() % 2 != 0) {
