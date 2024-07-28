@@ -5,83 +5,121 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Date;
 import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Ticket {
-    @JsonProperty("company")
-    private String company;
-    @JsonProperty("departure_city")
-    private String departureCity;
-    @JsonProperty("arrival_city")
-    private String arrivalCity;
+    @JsonProperty("origin")
+    private String origin;
+    @JsonProperty("origin_name")
+    private String originName;
+    @JsonProperty("destination")
+    private String destination;
+    @JsonProperty("destination_name")
+    private String destinationName;
+    @JsonProperty("departure_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yy")
+    private Date departureDate;
     @JsonProperty("departure_time")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime departureTime;
+    private String departureTime;
+    @JsonProperty("arrival_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yy")
+    private Date arrivalDate;
     @JsonProperty("arrival_time")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime arrivalTime;
-    @JsonProperty("price")
-    private int price;
+    private String arrivalTime;
+    @JsonProperty("carrier")
+    private String carrier;
+    private int stops;
+    private double price;
 
-    public String getCompany() {
-        return company;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
-    }
-
-    public String getDepartureCity() {
-        return departureCity;
-    }
-
-    public void setDepartureCity(String departureCity) {
-        this.departureCity = departureCity;
-    }
-
-    public String getArrivalCity() {
-        return arrivalCity;
-    }
-
-    public void setArrivalCity(String arrivalCity) {
-        this.arrivalCity = arrivalCity;
-    }
-
-    public LocalDateTime getDepartureTime() {
-        return departureTime;
-    }
-
-    public void setDepartureTime(LocalDateTime departureTime) {
-        this.departureTime = departureTime;
-    }
-
-    public LocalDateTime getArrivalTime() {
+    public String getArrivalTime() {
         return arrivalTime;
     }
 
-    public void setArrivalTime(LocalDateTime arrivalTime) {
+    public void setArrivalTime(String arrivalTime) {
         this.arrivalTime = arrivalTime;
     }
 
-    public int getPrice() {
+    public String getDepartureTime() {
+        return departureTime;
+    }
+
+    public void setDepartureTime(String departureTime) {
+        this.departureTime = departureTime;
+    }
+
+    public String getOrigin() {
+        return origin;
+    }
+
+    public void setOrigin(String origin) {
+        this.origin = origin;
+    }
+
+    public String getOriginName() {
+        return originName;
+    }
+
+    public void setOriginName(String originName) {
+        this.originName = originName;
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
+    public String getDestinationName() {
+        return destinationName;
+    }
+
+    public void setDestinationName(String destinationName) {
+        this.destinationName = destinationName;
+    }
+
+    public Date getDepartureDate() {
+        return departureDate;
+    }
+
+    public void setDepartureDate(Date departureDate) {
+        this.departureDate = departureDate;
+    }
+
+    public Date getArrivalDate() {
+        return arrivalDate;
+    }
+
+    public void setArrivalDate(Date arrivalDate) {
+        this.arrivalDate = arrivalDate;
+    }
+
+    public String getCarrier() {
+        return carrier;
+    }
+
+    public void setCarrier(String carrier) {
+        this.carrier = carrier;
+    }
+
+    public int getStops() {
+        return stops;
+    }
+
+    public void setStops(int stops) {
+        this.stops = stops;
+    }
+
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
-    }
-
-    @Override
-    public String toString() {
-        return "Ticket{" +
-                "company='" + company + '\'' +
-                ", departureCity='" + departureCity + '\'' +
-                ", arrivalCity='" + arrivalCity + '\'' +
-                ", departureTime=" + departureTime +
-                ", arrivalTime=" + arrivalTime +
-                ", price=" + price +
-                '}';
     }
 
     @Override
@@ -89,11 +127,39 @@ public class Ticket {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Ticket ticket = (Ticket) o;
-        return price == ticket.price && Objects.equals(company, ticket.company) && Objects.equals(departureCity, ticket.departureCity) && Objects.equals(arrivalCity, ticket.arrivalCity) && Objects.equals(departureTime, ticket.departureTime) && Objects.equals(arrivalTime, ticket.arrivalTime);
+        return stops == ticket.stops && price == ticket.price && Objects.equals(origin, ticket.origin) && Objects.equals(originName, ticket.originName) && Objects.equals(destination, ticket.destination) && Objects.equals(destinationName, ticket.destinationName) && Objects.equals(departureDate, ticket.departureDate) && Objects.equals(departureTime, ticket.departureTime) && Objects.equals(arrivalDate, ticket.arrivalDate) && Objects.equals(arrivalTime, ticket.arrivalTime) && Objects.equals(carrier, ticket.carrier);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(company, departureCity, arrivalCity, departureTime, arrivalTime, price);
+        return Objects.hash(origin, originName, destination, destinationName, departureDate, departureTime, arrivalDate, arrivalTime, carrier, stops, price);
     }
+
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "origin='" + origin + '\'' +
+                ", originName='" + originName + '\'' +
+                ", destination='" + destination + '\'' +
+                ", destinationName='" + destinationName + '\'' +
+                ", departureDate=" + departureDate +
+                ", departureTime=" + departureTime +
+                ", arrivalDate=" + arrivalDate +
+                ", arrivalTime=" + arrivalTime +
+                ", carrier='" + carrier + '\'' +
+                ", stops=" + stops +
+                ", price=" + price +
+                '}';
+    }
+    //"origin": "VVO",
+//        "origin_name": "Владивосток",
+//        "destination": "TLV",
+//        "destination_name": "Тель-Авив",
+//        "departure_date": "12.05.18",
+//        "departure_time": "6:10",
+//        "arrival_date": "12.05.18",
+//        "arrival_time": "16:15",
+//        "carrier": "S7",
+//        "stops": 0,
+//        "price": 17400
 }

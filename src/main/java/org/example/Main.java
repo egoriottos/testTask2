@@ -7,12 +7,13 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.Duration;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class Main {
     private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
@@ -22,6 +23,8 @@ public class Main {
     public static void main(String[] args) {
         System.out.println(readAllJSONFIle());
         System.out.println(getMinDurationTimeAndCompany());
+        System.out.println(findAveragePrice());
+        System.out.println(findMedian());
         System.out.println(findTheDifference(findAveragePrice(), findMedian()));
 
     }
@@ -30,9 +33,9 @@ public class Main {
     //чтение всего файла
     private static List<Ticket> readAllJSONFIle() {
         try (InputStream is = Main.class.getResourceAsStream("/tickets.json")) {
-            tickets = mapper.readValue(is, new TypeReference<>() {
+            Map<String, List<Ticket>> map = mapper.readValue(is, new TypeReference<Map<String, List<Ticket>>>() {
             });
-            return tickets;
+            return map.get("tickets");
         } catch (IOException e) {
             LOGGER.severe(e.getMessage());
         }
@@ -41,66 +44,47 @@ public class Main {
 
     //нахождение минимального времени перелета
     private static Map<String, Duration> getMinDurationTimeAndCompany() {
-        List<Ticket> tickets = readAllJSONFIle();
+        tickets = readAllJSONFIle();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm");
         Map<String, Duration> minFlightTimes = new HashMap<>();
-        String s = null;
-        LocalDateTime departure;
-        LocalDateTime arrival;
-        Duration duration;
-        for (int i = 0; i < Objects.requireNonNull(tickets).size(); i++) {
-            Ticket ticket = tickets.get(i);
-            departure = ticket.getDepartureTime();
-            arrival = ticket.getArrivalTime();
-            duration = Duration.between(departure, arrival);
 
-            if (i < tickets.size() - 1) {
-                Ticket tempTicket = tickets.get(i + 1);
-                if (ticket.getCompany().equals(tempTicket.getCompany())) {
-                    LocalDateTime departureTemp = tempTicket.getDepartureTime();
-                    LocalDateTime arrivalTemp = tempTicket.getArrivalTime();
-                    Duration durationTemp = Duration.between(departureTemp, arrivalTemp);
-                    if (durationTemp.getSeconds() > duration.getSeconds()) {
-                        minFlightTimes.put(ticket.getCompany(), duration);
-                    } else {
-                        minFlightTimes.put(ticket.getCompany(), durationTemp);
-                    }
-                }
+        for (Ticket ticket : tickets) {
+            LocalTime departure = LocalTime.parse(ticket.getDepartureTime(), formatter);
+            LocalTime arrival = LocalTime.parse(ticket.getArrivalTime(), formatter);
+            Duration duration = Duration.between(departure, arrival);
+
+            if (!minFlightTimes.containsKey(ticket.getCarrier()) || duration.compareTo(minFlightTimes.get(ticket.getCarrier())) < 0) {
+                minFlightTimes.put(ticket.getCarrier(), duration);
             }
         }
+
         return minFlightTimes;
     }
 
-    //среднее арифметическое
+//    //среднее арифметическое
     private static double findAveragePrice() {
         List<Ticket> tickets = readAllJSONFIle();
         double sum = 0;
         int count = 0;
-        sum = Objects.requireNonNull(tickets).stream().mapToDouble(Ticket::getPrice).sum();
+        sum = tickets.stream().mapToDouble(Ticket::getPrice).sum();
         count = tickets.size();
 
         return sum / count;
     }
-
-    //медиана
+//
+//    //медиана
     private static double findMedian() {
         List<Ticket> tickets = readAllJSONFIle();
-        List<Ticket> sortedTickets = Objects.requireNonNull(tickets).stream()
-                .sorted((t1, t2) -> Integer.compare(t1.getPrice(), t2.getPrice())).toList();
-        double sum = 0.0;
-        for (int i = 0; i < sortedTickets.size(); i++) {
+        List<Ticket> sortedTickets = tickets.stream()
+                .sorted((t1,t2)->Double.compare(t1.getPrice(),t2.getPrice())).toList();
             if (sortedTickets.size() % 2 != 0) {
-                Ticket ticket = sortedTickets.get(sortedTickets.size() / 2);
-                sum = (double) ticket.getPrice();
-            } else if (sortedTickets.size() % 2 == 0) {
-                Ticket firstMiddle = sortedTickets.get(sortedTickets.size() / 2 - 1);
-                Ticket secondMiddle = sortedTickets.get(sortedTickets.size() / 2);
-                sum = ((double) firstMiddle.getPrice() + (double) secondMiddle.getPrice()) / 2;
+                return sortedTickets.get(sortedTickets.size() / 2).getPrice();
+            } else {
+                return (sortedTickets.get(sortedTickets.size() / 2 - 1).getPrice() + sortedTickets.get(sortedTickets.size() / 2).getPrice()) / 2.0;
             }
-        }
-        return sum;
     }
 
-    //разница между медианой и средним значением
+//    //разница между медианой и средним значением
     private static double findTheDifference(double a, double b) {
         return a - b;
     }
